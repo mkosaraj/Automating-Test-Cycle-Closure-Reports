@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test Closure Report - Money Transfer</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, Helvetica, sans-serif; margin: 0; background: #f4f6f9; color: #1f2933; }
+  .page { max-width: 1100px; margin: 0 auto; padding: 32px; }
+  header { background: #1a3a5c; color: #fff; padding: 28px 32px; border-radius: 8px 8px 0 0; }
+  header h1 { margin: 0 0 6px; font-size: 26px; }
+  header p { margin: 0; opacity: .85; }
+  .meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); background: #fff; border: 1px solid #dde3ea; border-top: none; border-radius: 0 0 8px 8px; }
+  .meta div { padding: 12px 20px; border-right: 1px solid #eef1f5; }
+  .meta span { display: block; font-size: 12px; color: #6b7785; text-transform: uppercase; letter-spacing: .5px; }
+  .meta strong { font-size: 15px; }
+  section { background: #fff; border: 1px solid #dde3ea; border-radius: 8px; padding: 24px 28px; margin-top: 24px; }
+  h2 { margin: 0 0 16px; font-size: 20px; color: #1a3a5c; border-bottom: 2px solid #e3e8ee; padding-bottom: 8px; }
+  h3 { font-size: 16px; margin: 20px 0 8px; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { border: 1px solid #dde3ea; padding: 9px 12px; text-align: left; vertical-align: top; }
+  th { background: #eef2f7; color: #33475b; }
+  tr:nth-child(even) td { background: #fafbfc; }
+  .num { text-align: center; }
+  .verdict { display: flex; align-items: center; gap: 16px; background: #fdecea; border-left: 6px solid #c62828; padding: 16px 20px; border-radius: 4px; }
+  .verdict .tag { background: #c62828; color: #fff; font-weight: bold; padding: 6px 14px; border-radius: 4px; white-space: nowrap; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin-top: 20px; }
+  .card { border-radius: 8px; padding: 16px; text-align: center; border: 1px solid #dde3ea; }
+  .card .value { font-size: 30px; font-weight: bold; }
+  .card .label { font-size: 13px; color: #6b7785; }
+  .card.total-c { border-top: 4px solid #1a3a5c; }
+  .card.pass-c { border-top: 4px solid #2e7d32; } .card.pass-c .value { color: #2e7d32; }
+  .card.fail-c { border-top: 4px solid #c62828; } .card.fail-c .value { color: #c62828; }
+  .card.block-c { border-top: 4px solid #f9a825; } .card.block-c .value { color: #b7860b; }
+  .card.rate-c { border-top: 4px solid #1565c0; } .card.rate-c .value { color: #1565c0; }
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; color: #fff; white-space: nowrap; }
+  .b-fail { background: #c62828; } .b-blocked { background: #f9a825; color: #3a2c00; }
+  .b-critical { background: #8e0000; } .b-major { background: #e65100; } .b-minor { background: #9e9d24; }
+  .b-medium { background: #78909c; }
+  .note { background: #fff8e1; border-left: 4px solid #f9a825; padding: 10px 14px; margin-top: 14px; font-size: 14px; }
+  ol li, ul li { margin-bottom: 6px; }
+  footer { text-align: center; color: #6b7785; font-size: 12px; margin: 24px 0 8px; }
+  @media print {
+    body { background: #fff; }
+    section { break-inside: avoid; }
+    .badge, header, .verdict .tag { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <h1>Test Closure Report: Money Transfer</h1>
+  <p>Mobile Banking App</p>
+</header>
+<div class="meta">
+  <div><span>Report Date</span><strong>2026-11-18</strong></div>
+  <div><span>Prepared By</span><strong>QA Lead</strong></div>
+  <div><span>Source</span><strong>test_results.csv</strong></div>
+  <div><span>Release Recommendation</span><strong style="color:#c62828">NO-GO</strong></div>
+</div>
+
+<section>
+  <h2>1. Summary</h2>
+  <div class="verdict">
+    <span class="tag">NO-GO</span>
+    <span>15 test cases were executed: 9 passed, 5 failed and 1 was blocked, a <strong>60.0% pass rate</strong>. The run found 5 defects (1 Critical, 3 Major, 1 Minor). The main transfer flow works. Every failure is on an edge path: OTP delivery, network loss, peak load, invalid input or small screens. The most serious defect is a duplicate debit after retry (DEF-102). <strong>The exit criteria are not met.</strong></span>
+  </div>
+  <div class="cards">
+    <div class="card total-c"><div class="value">15</div><div class="label">Total</div></div>
+    <div class="card pass-c"><div class="value">9</div><div class="label">Passed</div></div>
+    <div class="card fail-c"><div class="value">5</div><div class="label">Failed</div></div>
+    <div class="card block-c"><div class="value">1</div><div class="label">Blocked</div></div>
+    <div class="card rate-c"><div class="value">60.0%</div><div class="label">Pass Rate</div></div>
+  </div>
+</section>
+
+<section>
+  <h2>2. Scope and Objectives of the Test Cycle</h2>
+  <p><strong>In scope (7 modules):</strong> Transfer, Authentication, Validation, Reliability, Security, Performance and UI.</p>
+  <p><strong>Objectives:</strong></p>
+  <ul>
+    <li>Confirm that transfers work correctly: between own accounts, to saved and new payees, and when scheduled or cancelled.</li>
+    <li>Confirm authentication and security controls: OTP, biometric approval and session timeout.</li>
+    <li>Confirm that limits and invalid input are rejected (validation).</li>
+    <li>Check behaviour when the network drops (reliability) and with 500 users (performance).</li>
+    <li>Check how the UI works on small screens and that receipts can be downloaded.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>3. Execution Metrics</h2>
+  <table>
+    <tr><th>Metric</th><th class="num">Value</th></tr>
+    <tr><td>Total test cases</td><td class="num">15</td></tr>
+    <tr><td>Passed</td><td class="num">9</td></tr>
+    <tr><td>Failed</td><td class="num">5</td></tr>
+    <tr><td>Blocked</td><td class="num">1</td></tr>
+    <tr><td>Pass rate (of all tests)</td><td class="num">60.0% (9/15)</td></tr>
+    <tr><td>Pass rate (of tests that ran, excluding blocked)</td><td class="num">64.3% (9/14)</td></tr>
+    <tr><td>High priority pass rate</td><td class="num">66.7% (6/9)</td></tr>
+    <tr><td>Medium priority pass rate</td><td class="num">40.0% (2/5)</td></tr>
+    <tr><td>Low priority pass rate</td><td class="num">100% (1/1)</td></tr>
+    <tr><td>Total execution time</td><td class="num">74.1 s</td></tr>
+  </table>
+
+  <h3>By Module</h3>
+  <table>
+    <tr><th>Module</th><th class="num">Total</th><th class="num">Passed</th><th class="num">Failed</th><th class="num">Blocked</th></tr>
+    <tr><td>Transfer</td><td class="num">5</td><td class="num">4</td><td class="num">0</td><td class="num">1</td></tr>
+    <tr><td>Validation</td><td class="num">3</td><td class="num">2</td><td class="num">1</td><td class="num">0</td></tr>
+    <tr><td>Authentication</td><td class="num">2</td><td class="num">1</td><td class="num">1</td><td class="num">0</td></tr>
+    <tr><td>UI</td><td class="num">2</td><td class="num">1</td><td class="num">1</td><td class="num">0</td></tr>
+    <tr><td>Reliability</td><td class="num">1</td><td class="num">0</td><td class="num">1</td><td class="num">0</td></tr>
+    <tr><td>Performance</td><td class="num">1</td><td class="num">0</td><td class="num">1</td><td class="num">0</td></tr>
+    <tr><td>Security</td><td class="num">1</td><td class="num">1</td><td class="num">0</td><td class="num">0</td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>4. Defect Summary</h2>
+  <table>
+    <tr><th>Defect ID</th><th>Test ID</th><th>Severity</th><th>Description</th></tr>
+    <tr><td>DEF-101</td><td>TC03</td><td><span class="badge b-critical">Critical</span></td><td>OTP not received within 60 seconds when transferring to a new payee</td></tr>
+    <tr><td>DEF-102</td><td>TC06</td><td><span class="badge b-major">Major</span><br><small>Recommend raising to Critical</small></td><td>Duplicate debit after automatic retry during network loss. Blocks TC13.</td></tr>
+    <tr><td>DEF-103</td><td>TC09</td><td><span class="badge b-minor">Minor</span><br><small>Recommend raising to Major</small></td><td>Confirm button hidden on 5-inch screens</td></tr>
+    <tr><td>DEF-104</td><td>TC12</td><td><span class="badge b-major">Major</span></td><td>Generic error instead of a message on the field for an invalid beneficiary account number</td></tr>
+    <tr><td>DEF-105</td><td>TC15</td><td><span class="badge b-major">Major</span></td><td>Response time above the 5-second target with 500 users</td></tr>
+  </table>
+  <p><strong>By severity:</strong> Critical 1, Major 3, Minor 1. All 5 are open.</p>
+</section>
+
+<section>
+  <h2>5. Key Insights</h2>
+  <ul>
+    <li><strong>The main flow is stable.</strong> The Transfer module had no failures (4 passed, 1 blocked). Security (TC11) and biometric approval (TC14) passed.</li>
+    <li><strong>Failures cluster where the app depends on something outside it.</strong> OTP delivery (DEF-101), the network (DEF-102) and capacity under load (DEF-105) account for 3 of the 5 failures, all on High priority tests.</li>
+    <li><strong>Money is at risk.</strong> DEF-102 debits the customer twice. It is rated Major but should be Critical.</li>
+    <li><strong>UI problems stop users from finishing.</strong> The hidden Confirm button (DEF-103) and generic error messages (DEF-104) block or confuse users. DEF-103's Minor rating understates this.</li>
+    <li><strong>Validation of limits works.</strong> The daily limit (TC04) and insufficient balance (TC05) responses are correct.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>6. Recommendations</h2>
+  <p>Ranked by risk to customers' money first, then security, then user experience.</p>
+  <table>
+    <tr><th>Rank</th><th>Recommendation</th><th>Addresses</th></tr>
+    <tr><td><span class="badge b-critical">P1</span></td><td>Make every transfer safe to retry: give each transfer a unique reference, show a "pending" status instead of retrying automatically, and reconcile transfers</td><td>DEF-102 (TC06), unblocks TC13</td></tr>
+    <tr><td><span class="badge b-critical">P2</span></td><td>Make OTP delivery reliable: monitor delivery, add a backup SMS provider and a resend option with rate limits, and offer biometric or in-app approval as an alternative</td><td>DEF-101 (TC03)</td></tr>
+    <tr><td><span class="badge b-major">P3</span></td><td>Tune performance and scale for peak load, and disable the button after the first tap</td><td>DEF-105 (TC15)</td></tr>
+    <tr><td><span class="badge b-major">P4</span></td><td>Show errors on the field that's wrong, and display the beneficiary's name before the user confirms</td><td>DEF-104 (TC12)</td></tr>
+    <tr><td><span class="badge b-minor">P5</span></td><td>Keep the Confirm button visible on small screens, and test on a wider range of devices</td><td>DEF-103 (TC09)</td></tr>
+    <tr><td><span class="badge b-medium">P6</span></td><td>Add automated tests for retries, network loss, OTP delivery and load, and agree severity rules</td><td>All</td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>7. Open Risks and Blocked Tests</h2>
+  <table>
+    <tr><th>Item</th><th>Type</th><th>Risk</th></tr>
+    <tr><td>TC13: Transfer history update</td><td><span class="badge b-blocked">Blocked</span></td><td>Not tested until DEF-102 is fixed. Transfer history may be wrong if a debit is duplicated.</td></tr>
+    <tr><td>DEF-102</td><td><span class="badge b-fail">Open risk</span></td><td>Customers lose money, which also creates compliance and reputational risk</td></tr>
+    <tr><td>DEF-101</td><td><span class="badge b-fail">Open risk</span></td><td>Users cannot pay new payees</td></tr>
+    <tr><td>DEF-105</td><td><span class="badge b-fail">Open risk</span></td><td>Slow responses at peak may make users tap again, which increases the DEF-102 risk</td></tr>
+    <tr><td>Severity ratings</td><td><span class="badge b-medium">Process risk</span></td><td>DEF-102 and DEF-103 are rated lower than their impact, so they may get less attention than they need</td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>8. Exit Criteria Assessment</h2>
+  <table>
+    <tr><th>Criterion</th><th>Target</th><th>Actual</th><th>Status</th></tr>
+    <tr><td>No open Critical defects</td><td>0</td><td>1 (DEF-101), or 2 if DEF-102 is raised to Critical</td><td><span class="badge b-fail">Not met</span></td></tr>
+    <tr><td>Pass rate</td><td>&ge; 95%</td><td>60.0% (9/15)</td><td><span class="badge b-fail">Not met</span></td></tr>
+  </table>
+  <p class="note"><strong>Neither exit criterion is met.</strong></p>
+</section>
+
+<section>
+  <h2>9. Release Recommendation</h2>
+  <div class="verdict">
+    <span class="tag">NO-GO</span>
+    <span>The Money Transfer feature should not be released.</span>
+  </div>
+  <p><strong>Before release:</strong></p>
+  <ol>
+    <li>Fix DEF-102 and DEF-101, and confirm the fixes.</li>
+    <li>Fix DEF-105, DEF-104 and DEF-103.</li>
+    <li>Run TC13, retest all 5 failed cases and run regression on the transfer flows.</li>
+    <li>Check the exit criteria again: no open Critical defects and a pass rate of at least 95%.</li>
+  </ol>
+</section>
+
+<footer>Money Transfer Test Closure Report - 2026-11-18 - Source: test_results.csv</footer>
+
+</div>
+</body>
+</html>
